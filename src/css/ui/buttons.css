@@ -1,0 +1,50 @@
+.o-button{
+	@apply
+	bg-blue-500
+	duration-300
+	flex
+	font-medium
+	overflow-hidden
+	px-8
+	py-2
+	relative
+	rounded-[5px]
+	text-[13px]
+	text-white
+	transition-all
+	dark:bg-amber-400
+	w-fit;
+
+	&:hover{
+		@apply
+		-translate-y-0.5
+		shadow-lg;
+
+		&:before{
+			@apply
+			clip-path-circle-100
+		}
+	}
+
+	&:before{
+		@apply
+		-translate-x-1/2
+		absolute
+		bg-blue-400
+		block
+		clip-path-circle-0
+		content-['']
+		duration-500
+		h-full
+		left-1/2
+		top-0
+		transition-all
+		w-full
+		z-0
+	}
+
+	span{
+		@apply
+		relative
+	}
+}

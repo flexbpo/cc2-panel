@@ -1,0 +1,11 @@
+{
+	"Index": {
+		"title": "¡Hola mundo!"
+	},
+	"NotFoundPage": {
+		"title": "Pagina no encontrada"
+	},
+	"Dashboard": {
+		"title": "Estas autenticado"
+	}
+}

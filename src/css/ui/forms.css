@@ -1,0 +1,36 @@
+label{
+	@apply
+	flex
+	mb-1.5
+	text-xs
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="number"]{
+	@apply
+	border
+	border-opacity-40
+	border-slate-600
+	flex
+	font-medium
+	outline-none
+	px-3
+	py-2.5
+	rounded
+	shadow
+	text-xs
+	w-full;
+
+	&:focus{
+		@apply
+		border-blue-500
+	}
+
+	&::placeholder{
+		@apply
+		font-normal
+	}
+}

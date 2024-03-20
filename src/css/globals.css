@@ -1,0 +1,11 @@
+@import "./tags/global.css";
+
+@import "./ui/buttons.css";
+@import "./ui/forms.css";
+
+@import "./utilities/clip-path.css";
+@import "./utilities/text.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

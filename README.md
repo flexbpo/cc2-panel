@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Este es un proyecto hecho con [Next.js](https://nextjs.org/), está creado con: [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Comienza
 
-First, run the development server:
+Para comenzar corre el servidor en modo desarrollo:
 
 ```bash
 npm run dev
-# or
+# o
 yarn dev
-# or
+# o
 pnpm dev
-# or
+# o
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver el sitio, o bien el puerto asignado (esto en caso de que este ocupado tu puerto 3000)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Puede comenzar a editar la página modificando `src/app/[locale]/page.js`. La página se actualiza automáticamente a medida que edita el archivo.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Saber más sobre el proyecto
 
-## Learn More
+Para saber sobre Next.js y las librerías usadas en el proyecto puedes revisar la siguiente documentación:
 
-To learn more about Next.js, take a look at the following resources:
+**De Terceros:**
+- [Next intl - Internationalization Documentación](https://next-intl-docs.vercel.app/docs/getting-started) - Documentación sobre los idiomas.
+- [Next themes - Controla el Dark mode](https://github.com/pacocoursey/next-themes)
+- [React Hook Form - Controla los formulario](https://react-hook-form.com/get-started#Quickstart)
+- [Yup - Controla la validación de formularios](https://github.com/jquense/yup)
+- [React Query - Controla las peticiones a apis](https://tanstack.com/query/latest/docs/framework/react/quick-start)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**De Next:**
+- [Next.js - Documentación](https://nextjs.org/docs) de Next.js.
+- [Next Authentication - Tutorial](https://nextjs.org/learn/dashboard-app/adding-authentication) - Documentación de la autenticación de Next.js.
+- [Local Fonts - Uso personalizado de tipografías](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
+- [Tutorial - Next.js](https://nextjs.org/learn) - Tutorial interactivo sobre Next.js.
