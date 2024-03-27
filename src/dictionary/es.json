@@ -1,4 +1,11 @@
 {
+	"AsideMenu": {
+		"Operations": "Operación",
+		"Organizations": "Organización"
+	},
+	"Search": {
+		"placeholder": "Buscar en CustomCity"
+	},
 	"Index": {
 		"title": "¡Hola mundo!"
 	},

@@ -10,7 +10,7 @@ export const LinkButton = ({label, href, ...props}) => {
 	)
 }
 
-export const ButtonPropTypes = LinkButton.propTypes = {
+export const LinkButtonPropTypes = LinkButton.propTypes = {
 	/**
 	 * Label del boton
 	 */

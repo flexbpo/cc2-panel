@@ -1,0 +1,6 @@
+.dark [data-hide-on-theme='dark'],
+.light [data-hide-on-theme='light'],
+.custom-dark [data-hide-on-theme='custom-dark'],
+.custom [data-hide-on-theme='custom'] {
+	display: none;
+}

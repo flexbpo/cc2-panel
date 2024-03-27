@@ -1,8 +1,9 @@
 import {Providers} from "@/providers/Providers"
-import {ChangeLanguage} from "@/components"
-import {circularStd} from "@/hooks/localFonts"
+import {ccIcons, circularStd} from "@/hooks/localFonts"
 import "@/css/globals.css"
-import {ChangeTheme} from "@/components/ui/ChangeTheme";
+import 'simplebar-react/dist/simplebar.min.css'
+import {Colors} from "@/components/template/Colors";
+import {unstable_setRequestLocale} from "next-intl/server";
 
 export const metadata = {
 	title: "CC Connect",
@@ -10,12 +11,13 @@ export const metadata = {
 }
 
 export default async function RootLayout({ children, params: {locale} }) {
+	unstable_setRequestLocale(locale);
+
 	return (
 		<html lang={locale} suppressHydrationWarning>
-			<body className={`${circularStd.className} ${circularStd.variable}`}>
+			<body className={`${circularStd.className} ${circularStd.variable} ${ccIcons.variable}`}>
 				<Providers locale={locale}>
-					<ChangeLanguage/>
-					<ChangeTheme/>
+					<Colors/>
 					{children}
 				</Providers>
 			</body>

@@ -2,10 +2,23 @@
 
 @import "./ui/buttons.css";
 @import "./ui/forms.css";
+@import "./ui/icons.css";
 
 @import "./utilities/clip-path.css";
+@import "./utilities/hide.css";
 @import "./utilities/text.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+	--primary-500: #008AD3;
+	--primary-450: #019EE1;
+	--primary-400: #2dc3ff;
+
+	--secondary-400: #9B9CA3;
+	--secondary-700: #353A44;
+	--secondary-750: #2A2E34;
+	--secondary-800: #27272A;
+}

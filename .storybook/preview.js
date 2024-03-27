@@ -48,7 +48,13 @@ export const circularStd = localFont({
 	],
 	display: 'swap',
 	variable: '--font-circular-std'
-})
+});
+
+export const ccIcons = localFont({
+	src: '../fonts/cc-icons.woff',
+	display: 'swap',
+	variable: '--font-cc-icons'
+});
 
 
 const preview = {
@@ -66,7 +72,7 @@ const preview = {
 	},
 	decorators: [
 		Story => (
-			<div className={`${circularStd.className} ${circularStd.variable}`}>
+			<div className={`${circularStd.className} ${circularStd.variable} ${ccIcons.variable}`}>
 				<Story/>
 			</div>
 		)

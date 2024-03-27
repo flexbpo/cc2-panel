@@ -2,9 +2,8 @@
 
 import {useTranslations} from "next-intl";
 import {useRouter} from "next/navigation";
-import {useEffect, useState} from "react";
 
-export default function ErrorPage({params}) {
+export default function ErrorPage() {
 	const t = useTranslations('NotFoundPage');
 	const router = useRouter();
 

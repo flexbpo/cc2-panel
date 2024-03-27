@@ -1,0 +1,23 @@
+.icon{
+	@apply !font-ccIcons font-normal not-italic;
+
+	&-abi:before { @apply content-["\e900"] }
+	&-accept:before { @apply content-["\e901"] }
+	&-air:before { @apply content-["\e902"] }
+	&-cancel:before { @apply content-["\e903"] }
+	&-close:before { @apply content-["\e904"] }
+	&-collapse:before { @apply content-["\e905"] }
+	&-dark:before { @apply content-["\e906"] }
+	&-down:before { @apply content-["\e907"] }
+	&-edit:before { @apply content-["\e908"] }
+	&-house:before { @apply content-["\e909"] }
+	&-light:before { @apply content-["\e90a"] }
+	&-notification:before { @apply content-["\e90b"] }
+	&-ocean:before { @apply content-["\e90c"] }
+	&-organization:before { @apply content-["\e90d"] }
+	&-reports:before { @apply content-["\e90e"] }
+	&-search:before { @apply content-["\e90f"] }
+	&-send:before { @apply content-["\e910"] }
+	&-support:before { @apply content-["\e911"] }
+	&-truck:before { @apply content-["\e912"] }
+}

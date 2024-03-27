@@ -1,8 +1,9 @@
 body {
 	@apply
 	text-black
-	dark:bg-gray-800
+	dark:bg-secondary-750
+	custom-dark:bg-secondary-750
 	dark:text-white
-	py-5
-	px-4
+	lg:py-5
+	lg:px-4
 }

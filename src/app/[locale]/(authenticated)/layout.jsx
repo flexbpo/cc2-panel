@@ -1,8 +1,7 @@
-import {useTranslations} from "next-intl";
 import {auth} from "@/auth";
 import {redirect} from "next/navigation";
-import {ButtonLogout} from "@/components/ui/ButtonLogout";
 import {AsideMenu} from "@/components/template/AsideMenu";
+import {HeaderAuthenticated} from "@/components/template/HeaderAuthenticated";
 
 export const metadata = {
 	title: "CC Connect",
@@ -15,11 +14,16 @@ export default async function RootLayout({children}) {
 	if(!session?.user) redirect("/login")
 
 	return (
-		<main>
+		<main className="flex h-full lg:gap-3">
 			<AsideMenu/>
-			<ButtonLogout/>
-			<h2>Dashboard</h2>
-			{children}
+
+			<div className="flex flex-col gap-4 w-full">
+				<HeaderAuthenticated/>
+
+				<div className="bg-slate-50 dark:bg-zinc-700 rounded px-4 py-5">
+					{children}
+				</div>
+			</div>
 		</main>
 	);
 }

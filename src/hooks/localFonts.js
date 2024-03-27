@@ -46,3 +46,9 @@ export const circularStd = localFont({
 	display: 'swap',
 	variable: '--font-circular-std'
 })
+
+export const ccIcons = localFont({
+	src: '../../public/fonts/cc-icons.woff',
+	display: 'swap',
+	variable: '--font-cc-icons'
+});
