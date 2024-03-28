@@ -2,6 +2,7 @@ import {auth} from "@/auth";
 import {redirect} from "next/navigation";
 import {AsideMenu} from "@/components/template/AsideMenu";
 import {HeaderAuthenticated} from "@/components/template/HeaderAuthenticated";
+import {DrawerQuickEntry} from "@/components/quickEntry/DrawerQuickEntry";
 
 export const metadata = {
 	title: "CC Connect",
@@ -20,10 +21,14 @@ export default async function RootLayout({children}) {
 			<div className="flex flex-col gap-4 w-full">
 				<HeaderAuthenticated/>
 
-				<div className="bg-slate-50 dark:bg-zinc-700 rounded px-4 py-5">
-					{children}
+				<div className="px-4 lg:px-0">
+					<div className="bg-slate-50 dark:bg-secondary-700 custom-dark:bg-secondary-700 rounded px-4 py-5 min-h-[calc(100svh-98px)]">
+						{children}
+					</div>
 				</div>
 			</div>
+
+			<DrawerQuickEntry/>
 		</main>
 	);
 }

@@ -5,12 +5,12 @@ import Link from "next/link";
 import {useState} from "react";
 import {useMenusStore} from "@/store/menus.store";
 
-export const CustomDropdownMenu = ({icon, title, items}) => {
+export const CustomDropdownMenu = ({icon, title, items,  ...props}) => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const menuCollapse = useMenusStore(state => state.menuCollapse);
 
 	return (
-		<div className={`group/dropdown ${menuCollapse ? 'relative' : ''}`}>
+		<div className={`group/dropdown ${menuCollapse ? 'relative' : ''}`} {...props}>
 			<button
 				onClick={() => setDropdownOpen(dropdown => !dropdown)}
 				className={`peer text-white text-sm transition-all flex justify-center items-center w-full gap-3.5 rounded

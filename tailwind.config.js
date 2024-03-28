@@ -39,10 +39,14 @@ module.exports = {
 				slate: {
 					50: "#F5F7FB"
 				},
+				blue: {
+					950: "var(--blue-950)"
+				},
 				primary: {
 					400: "var(--primary-400)",
 					450: "var(--primary-450)",
 					500: "var(--primary-500)",
+					550: "var(--primary-550)",
 				},
 				gray: {
 					800: "#2A2E34"

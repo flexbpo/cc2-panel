@@ -10,7 +10,7 @@ import {ButtonSearch} from "@/components/ui/ButtonSearch";
 
 export const HeaderAuthenticated = () => {
 	return (
-		<header className="flex gap-4 w-full">
+		<header className="flex gap-4 w-full relative z-10">
 			<div className="w-full hidden lg:block">
 				<SearchForm/>
 			</div>
@@ -32,7 +32,7 @@ export const HeaderAuthenticated = () => {
 
 				<div className="flex gap-7">
 					<div className="flex gap-5">
-						<div className="flex items-center block lg:hidden">
+						<div className="flex items-center lg:hidden">
 							<ButtonSearch/>
 						</div>
 

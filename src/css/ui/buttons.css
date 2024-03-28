@@ -1,6 +1,6 @@
 .o-button{
 	@apply
-	bg-blue-500
+	!bg-primary-500
 	duration-300
 	flex
 	font-medium
@@ -12,7 +12,6 @@
 	text-[13px]
 	text-white
 	transition-all
-	dark:bg-amber-400
 	w-fit;
 
 	&:hover{
@@ -30,7 +29,7 @@
 		@apply
 		-translate-x-1/2
 		absolute
-		bg-blue-400
+		bg-primary-400
 		block
 		clip-path-circle-0
 		content-['']

@@ -19,8 +19,6 @@ export const ChangeLanguage = () => {
 		setLanguage(nextLocale);
 	}
 
-	console.log({localActive})
-
 	return (
 		<div className="group/language relative">
 			<button

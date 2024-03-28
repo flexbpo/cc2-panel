@@ -13,12 +13,21 @@
 @tailwind utilities;
 
 :root {
+	--primary-550: #0082C6;
 	--primary-500: #008AD3;
 	--primary-450: #019EE1;
 	--primary-400: #2dc3ff;
 
 	--secondary-400: #9B9CA3;
+	--secondary-450: #707986;
 	--secondary-700: #353A44;
 	--secondary-750: #2A2E34;
 	--secondary-800: #27272A;
+	--blue-950: #0A2F5B
+}
+
+::selection{
+	@apply
+	bg-primary-500
+	text-white
 }
