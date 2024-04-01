@@ -24,9 +24,9 @@ input[type="number"]{
 	rounded
 	shadow
 	text-xs
-	w-full
 	dark:text-black
-	custom-dark:text-black;
+	custom-dark:text-black
+	w-full;
 
 	&:focus{
 		@apply
@@ -37,6 +37,14 @@ input[type="number"]{
 		@apply
 		font-normal
 	}
+}
+
+input[list]::-webkit-calendar-picker-indicator {
+	display: none;
+}
+
+.react-datepicker-wrapper{
+	width: 100% !important;
 }
 
 .o-error{

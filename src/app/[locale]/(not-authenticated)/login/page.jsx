@@ -30,7 +30,7 @@ export default function LoginForm() {
 				<div className="w-full">
 					<div>
 						<Input
-							type="email"
+							type="text"
 							label="Email"
 							placeholder="Escribe tu email"
 							name="email"

@@ -12,7 +12,7 @@ export const metadata = {
 export default async function RootLayout({children}) {
 	//Este código es para redireccionar al login cuando no se esta autenticado
 	const session = await auth();
-	if(!session?.user) redirect("/login")
+	//if(!session?.user) redirect("/login")
 
 	return (
 		<main className="flex h-full lg:gap-3">
