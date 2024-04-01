@@ -7,7 +7,6 @@ import { useState } from 'react';
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import DatalistInput from "react-datalist-input";
 import 'react-datalist-input/dist/styles.css';
 
 const generateRandomCode = () => {
@@ -51,7 +50,7 @@ export const DrawerQuickEntry = () => {
 
 							<button
 								type="button"
-								className="flex mb-1.5 text-xs text-primary-500 custom-dark:text-primary-500"
+								className="flex mb-1.5 text-xs text-primary-500 custom-dark:text-primary-500 hover:text-primary-550 hover:-translate-y-1"
 								onClick={handleGenerateCode}>
 								Generate
 							</button>
