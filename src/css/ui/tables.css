@@ -1,0 +1,63 @@
+table{
+	@apply
+		max-w-full
+		border-collapse
+		border-spacing-0
+		border-none;
+
+	thead{
+		th{
+			@apply
+			text-[13px]
+			text-blue-950
+			truncate
+			p-1
+			text-center
+		}
+	}
+
+	tbody{
+		@apply
+			border
+			!rounded
+			border-stone-300;
+
+		tr{
+			&:last-child{
+				td{
+					input{
+						@apply
+						!border-b-transparent
+					}
+				}
+			}
+		}
+
+		td{
+			@apply
+			p-0;
+
+			&:last-child{
+				input{
+					@apply
+					!border-r-transparent
+				}
+			}
+
+			input{
+				@apply
+					!border-b-stone-300
+					!border-r-stone-300
+					!border-t-transparent
+					!border-l-transparent
+					!rounded-none
+			}
+		}
+	}
+}
+
+.o-table{
+	@apply
+	max-w-full
+	overflow-x-auto
+}

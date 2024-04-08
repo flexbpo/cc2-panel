@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const {createThemes} = require("tw-colors");
+const plugin = require("tailwindcss");
 module.exports = {
 	darkMode: 'class',
 	content: [
@@ -64,6 +65,14 @@ module.exports = {
 		createThemes(({light,dark}) =>({
 			custom: light({}),
 			'custom-dark': dark({})
-		}))
+		})),
+		require('@tailwindcss/forms')(function ({addBase}) {
+			addBase({
+				'[type="search"]::-webkit-search-decoration': {display: 'none !important'},
+				'[type="search"]::-webkit-search-cancel-button': {display: 'none !important'},
+				'[type="search"]::-webkit-search-results-button': {display: 'none !important'},
+				'[type="search"]::-webkit-search-results-decoration': {display: 'none !important'},
+			})
+		}),
 	],
 };

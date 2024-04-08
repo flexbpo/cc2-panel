@@ -24,7 +24,7 @@ export const HeaderAuthenticated = () => {
 					<ButtonMenuMobile/>
 				</div>
 
-				<div className="hidden lg:flex items-center justify-center gap-8">
+				<div className="hidden lg:flex items-center justify-center gap-2 xl:gap-8">
 					<ChangeLanguage/>
 
 					<DropdownCustomCity/>

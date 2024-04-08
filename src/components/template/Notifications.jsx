@@ -8,7 +8,7 @@ export const Notifications = () => {
 				dark:hover:text-primary-500
 				custom-dark:text-primary-500
 				hover:text-primary-500">
-				<Icons name="air"/>
+				<Icons name="notifications"/>
 			</button>
 		</div>
 	)

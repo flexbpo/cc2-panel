@@ -12,7 +12,7 @@ export const Drawer = ({children, title, icon, show, setShow}) => {
 							${show ? 'opacity-100 visible lg:right-0 bottom-0' : 'lg:-right-full -bottom-full opacity-0 invisible'}
 							`}>
 						<button onClick={() => setShow()} className="absolute lg:right-9 lg:top-9 right-6 top-6 transition-all hover:-translate-y-1 dark:text-white custom-dark:text-white hover:text-primary-500 dark:hover:text-primary-500 custom-dark:hover:text-primary-500">
-							<Icons name="air"/>
+							<Icons name="close" className="text-[20px]"/>
 						</button>
 
 						<h2 className="flex gap-4 font-medium text-[22px] lg:text-xl mb-8 capitalize dark:text-white custom-dark:text-white">

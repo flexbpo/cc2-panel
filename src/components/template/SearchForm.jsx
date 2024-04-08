@@ -22,7 +22,7 @@ export const SearchForm = () => {
 	return (
 		<form onSubmit={onSubmitSearch} className="relative w-full">
 			<input
-				className={`h-10 w-full bg-slate-50 border border-slate-50 pl-12 text-xs peer outline-none rounded
+				className={`h-10 w-full bg-slate-50 border border-slate-50 !pl-12 text-xs peer outline-none rounded
 					focus:border-primary-500 
 					dark:bg-secondary-700 dark:border-secondary-700 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary-500
 					custom-dark:bg-secondary-700 custom-dark:border-secondary-700 custom-dark:text-neutral-200 custom-dark:placeholder:text-neutral-200 custom-dark:focus:border-primary-500

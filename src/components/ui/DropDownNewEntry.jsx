@@ -1,7 +1,6 @@
 'use client'
 
 import {Icons} from "@/components/ui/Icons";
-import Link from "next/link";
 import {useDrawersStore} from "@/store/drawers.store";
 
 export const DropDownNewEntry = () => {
@@ -14,7 +13,7 @@ export const DropDownNewEntry = () => {
 					before:-translate-x-1/2 before:absolute before:bg-primary-400 before:block before:clip-path-circle-0 before:content-[''] before:h-full before:left-1/2 before:top-0 before:transition-all before:w-full before:z-0
 					group-hover/DropDownEntry:-translate-y-0.5 group-hover/DropDownEntry:shadow-lg group-hover/DropDownEntry:before:clip-path-circle-100">
 				<span className="py-2 px-4 inline-flex relative">
-					New Entry
+					New
 				</span>
 
 				<span className="py-2 px-1.5 border-l-2 border-black/10 inline-flex relative">
@@ -23,7 +22,7 @@ export const DropDownNewEntry = () => {
 			</button>
 
 			<button className="lg:hidden bg-primary-500 rounded-[14px] text-white h-[45px] w-[45px]">
-				<Icons name="air"/>
+				<Icons name="plus"/>
 			</button>
 
 			<div className="opacity-0 invisible block transition-all lg:-translate-x-4
@@ -40,16 +39,16 @@ export const DropDownNewEntry = () => {
 							className="relative whitespace-nowrap py-1.5 px-4 gap-3.5 flex rounded w-full overflow-hidden
 							hover:before:w-full
 							before:content-[''] before:absolute before:bg-primary-500 before:opacity-10 before:h-full before:w-0 before:top-0 before:left-0 before:transition-all">
-							<Icons name="air"/>
+							<Icons name="quick-entry"/>
 
-							Quick Entry
+							Quick E-Manifest
 						</button>
 					</li>
 					<li>
 						<button className="relative whitespace-nowrap py-1.5 px-4 gap-3.5 flex rounded w-full overflow-hidden
 							hover:before:w-full
 							before:content-[''] before:absolute before:bg-primary-500 before:opacity-10 before:h-full before:w-0 before:top-0 before:left-0 before:transition-all">
-							<Icons name="air"/>
+							<Icons name="wizard-view"/>
 
 							Wizard View
 						</button>
@@ -58,7 +57,7 @@ export const DropDownNewEntry = () => {
 						<button className="relative whitespace-nowrap py-1.5 px-4 gap-3.5 flex rounded w-full overflow-hidden
 							hover:before:w-full
 							before:content-[''] before:absolute before:bg-primary-500 before:opacity-10 before:h-full before:w-0 before:top-0 before:left-0 before:transition-all">
-							<Icons name="air"/>
+							<Icons name="wizard-view-2"/>
 
 							Table View
 						</button>
@@ -67,16 +66,16 @@ export const DropDownNewEntry = () => {
 						<button className="relative whitespace-nowrap py-1.5 px-4 gap-3.5 flex rounded w-full overflow-hidden
 							hover:before:w-full
 							before:content-[''] before:absolute before:bg-primary-500 before:opacity-10 before:h-full before:w-0 before:top-0 before:left-0 before:transition-all">
-							<Icons name="air"/>
+							<Icons name="card-view"/>
 
 							Card View
 						</button>
 					</li>
-					<li>
+					{/*<li>
 						<button className="relative whitespace-nowrap py-1.5 px-4 gap-3.5 flex rounded w-full overflow-hidden
 							hover:before:w-full
 							before:content-[''] before:absolute before:bg-primary-500 before:opacity-10 before:h-full before:w-0 before:top-0 before:left-0 before:transition-all">
-							<Icons name="air"/>
+							<Icons name="ia"/>
 
 							AI
 						</button>
@@ -88,7 +87,7 @@ export const DropDownNewEntry = () => {
 						<Link
 							className="whitespace-nowrap hover:text-primary-500 transition-all pt-4 pb-2 block pl-4"
 							href="/">Explore templates</Link>
-					</li>
+					</li>*/}
 				</ul>
 			</div>
 		</div>

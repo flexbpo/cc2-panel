@@ -24,14 +24,14 @@ export const DropDownProfile = () => {
 				<Icons name="down" className="group-hover/dropDownProfile:rotate-180 transition-transform"/>
 			</button>
 
-			<ul className="min-w-[100px] w-full text-xs rounded overflow-hidden bg-white text-neutral-400 opacity-0 invisible -right-3 transition-all absolute top-full shadow
+			<ul className="none h-0 min-w-[100px] w-full text-xs rounded overflow-hidden bg-white text-neutral-400 opacity-0 invisible -right-3 transition-all absolute top-full shadow
 				dark:bg-secondary-750 custom-dark:bg-secondary-750 dark:text-neutral-200 custom-dark:text-neutral-200
-				group-hover/dropDownProfile:opacity-100 group-hover/dropDownProfile:visible group-hover/dropDownProfile:right-0">
+				group-hover/dropDownProfile:opacity-100 group-hover/dropDownProfile:visible group-hover/dropDownProfile:right-0 group-hover/dropDownProfile:block group-hover/dropDownProfile:h-auto">
 				<li>
 					<Link
 						className="text-wrap py-1 block px-2 transition-all hover:bg-primary-500 hover:text-white dark:hover:bg-primary-500 custom-dark:bg-primary-500"
 						href="/">
-						Item 1
+						Item 2
 					</Link>
 				</li>
 				<li>

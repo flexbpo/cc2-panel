@@ -47,7 +47,7 @@ export const AsideMenu = () => {
 					${menuMobile ? 'left-0' : 'left-[-221px] lg:left-0'}
 					lg:min-h-[calc(100svh-40px)] lg:rounded-lg lg:relative lg:group-[.isMenuCollapse]:w-[63px]`}>
 				<div
-					className="flex items-center justify-center gap-6 pt-6 pr-3 pb-5 pl-6 h-20
+					className="flex items-center justify-center gap-6 pt-6 pr-3 pb-5 pl-4 h-20
 					lg:group-[.isMenuCollapse]:pl-3">
 					<Link
 						href="/dashboard"
@@ -60,8 +60,8 @@ export const AsideMenu = () => {
 							lg:block
 							group-[.isMenuCollapse]:rotate-180 group/button" onClick={() => changeMenuCollapse()}>
 						<Icons
-							name="collapse"
-							className="text-white transition-all duration-300 hidden
+							name="collapse-left"
+							className="text-white transition-all duration-300 hidden text-[20px]
 							dark:text-secondary-400
 							lg:block
 							group-hover/button:-translate-x-1"/>
@@ -72,7 +72,7 @@ export const AsideMenu = () => {
 							lg:hidden"
 						onClick={() => changeMenuMobile()}>
 						<Icons
-							name="air"
+							name="close"
 							className="text-white transition-all duration-300 block
 								dark:text-secondary-400"/>
 					</button>
@@ -134,12 +134,12 @@ const MenuContent = () => {
 				items={itemsMenu}/>
 
 			<CustomDropdownMenu
-				icon="ocean"
+				icon="abi"
 				title="ABI"
 				items={itemsMenu}/>
 
 			<CustomDropdownMenu
-				icon="ocean"
+				icon="truck"
 				title="Truck"
 				items={itemsMenu}/>
 

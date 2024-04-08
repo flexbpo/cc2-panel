@@ -10,7 +10,7 @@ import {useThemesStore} from "@/store/themes.store";
 
 export const ChangeTheme = () => {
 	const [mounted, setMounted] = useState(false);
-	const {theme, setTheme} = useTheme();
+	const {theme:currentTheme, setTheme} = useTheme();
 	const addInfoTheme = useThemesStore(state => state.addInfoTheme)
 
 	const searchParams = useSearchParams()
@@ -21,7 +21,29 @@ export const ChangeTheme = () => {
 		queryFn: async () => await getThemeByID(themeID)
 	});
 
-	if(themeID !== null && data?.error !== 'Not Found'){
+	useEffect(() => {
+		if (themeID !== null && data?.error !== 'Not Found') {
+			addInfoTheme(data);
+			if ((currentTheme === 'light' || currentTheme === 'custom') && currentTheme !== 'custom') {
+				setTheme('custom');
+			}
+			if ((currentTheme === 'dark' || currentTheme === 'custom-dark') && currentTheme !== 'custom-dark') {
+				setTheme('custom-dark');
+			}
+		}
+
+		if (themeID === null || data?.error === 'Not Found') {
+			addInfoTheme({});
+			if ((currentTheme === 'light' || currentTheme === 'custom') && currentTheme !== 'light') {
+				setTheme('light');
+			}
+			if ((currentTheme === 'dark' || currentTheme === 'custom-dark') && currentTheme !== 'dark') {
+				setTheme('dark');
+			}
+		}
+	}, [themeID, data]);
+
+	/*if(themeID !== null && data?.error !== 'Not Found'){
 		addInfoTheme(data);
 		if (theme === 'light' || theme === 'custom') setTheme('custom');
 		if (theme === 'dark' || theme === 'custom-dark') setTheme('custom-dark');
@@ -31,7 +53,7 @@ export const ChangeTheme = () => {
 		addInfoTheme({});
 		if (theme === 'light' || theme === 'custom') setTheme('light');
 		if (theme === 'dark' || theme === 'custom-dark') setTheme('dark');
-	}
+	}*/
 
 	useEffect(() => {
 		setMounted(true);
@@ -41,29 +63,29 @@ export const ChangeTheme = () => {
 
 	return (
 		<>
-			{theme === 'light' || theme === 'custom'
+			{currentTheme === 'light' || currentTheme === 'custom'
 				? <button
-					onClick={() => setTheme(theme === 'custom' ? 'custom-dark' : 'dark')}
+					onClick={() => setTheme(currentTheme === 'custom' ? 'custom-dark' : 'dark')}
 					className="text-black transition-all
 					dark:text-white
 					dark:hover:text-primary-500
 					custom-dark:text-white
 					custom-dark:hover:text-primary-500
 					hover:text-primary-500">
-					<Icons name="dark"/>
+					<Icons name="dark-mode"/>
 				</button>
 				: null}
 
-			{theme === 'dark' || theme === 'custom-dark'
+			{currentTheme === 'dark' || currentTheme === 'custom-dark'
 				? <button
-					onClick={() => setTheme(theme === 'custom-dark' ? 'custom' : 'light')}
+					onClick={() => setTheme(currentTheme === 'custom-dark' ? 'custom' : 'light')}
 					className="text-black transition-all
 					dark:text-white
 					dark:hover:text-primary-500
 					custom-dark:text-white
 					custom-dark:hover:text-primary-500
 					hover:text-primary-500">
-					<Icons name="light"/>
+					<Icons name="light-mode"/>
 				</button>
 				: null}
 		</>

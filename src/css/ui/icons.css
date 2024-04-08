@@ -1,23 +1,85 @@
 .icon{
 	@apply !font-ccIcons font-normal not-italic;
 
-	&-abi:before { @apply content-["\e900"] }
-	&-accept:before { @apply content-["\e901"] }
-	&-air:before { @apply content-["\e902"] }
-	&-cancel:before { @apply content-["\e903"] }
-	&-close:before { @apply content-["\e904"] }
-	&-collapse:before { @apply content-["\e905"] }
-	&-dark:before { @apply content-["\e906"] }
-	&-down:before { @apply content-["\e907"] }
-	&-edit:before { @apply content-["\e908"] }
-	&-house:before { @apply content-["\e909"] }
-	&-light:before { @apply content-["\e90a"] }
-	&-notification:before { @apply content-["\e90b"] }
-	&-ocean:before { @apply content-["\e90c"] }
-	&-organization:before { @apply content-["\e90d"] }
-	&-reports:before { @apply content-["\e90e"] }
-	&-search:before { @apply content-["\e90f"] }
-	&-send:before { @apply content-["\e910"] }
-	&-support:before { @apply content-["\e911"] }
-	&-truck:before { @apply content-["\e912"] }
+	&-plus:before {
+		content: "\e91a";
+	}
+	&-quick-entry:before {
+		content: "\e919";
+	}
+	&-search:before {
+		content: "\e918";
+	}
+	&-truck:before {
+		content: "\e917";
+	}
+	&-house:before {
+		content: "\e90c";
+	}
+	&-abi:before {
+		content: "\e900";
+	}
+	&-air:before {
+		content: "\e901";
+	}
+	&-cancelled:before {
+		content: "\e902";
+	}
+	&-card-view:before {
+		content: "\e903";
+	}
+	&-check:before {
+		content: "\e904";
+	}
+	&-close:before {
+		content: "\e905";
+	}
+	&-collapse-left:before {
+		content: "\e906";
+	}
+	&-collapse-right:before {
+		content: "\e907";
+	}
+	&-dark-mode:before {
+		content: "\e908";
+	}
+	&-down:before {
+		content: "\e909";
+	}
+	&-draft:before {
+		content: "\e90a";
+	}
+	&-hamburguer:before {
+		content: "\e90b";
+	}
+	&-ia:before {
+		content: "\e90f";
+	}
+	&-light-mode:before {
+		content: "\e910";
+	}
+	&-notifications:before {
+		content: "\e912";
+	}
+	&-ocean:before {
+		content: "\e913";
+	}
+	&-sent:before {
+		content: "\e914";
+	}
+	&-wizard-view-2:before {
+		content: "\e915";
+	}
+	&-wizard-view:before {
+		content: "\e916";
+	}
+	&-organization:before {
+		content: "\e90d";
+	}
+	&-reports:before {
+		content: "\e90e";
+	}
+	&-support:before {
+		content: "\e911";
+	}
 }

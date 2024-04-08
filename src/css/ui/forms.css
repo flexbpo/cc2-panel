@@ -10,7 +10,9 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="tel"],
-input[type="number"]{
+input[type="number"],
+input[type="time"],
+input[type="search"]{
 	@apply
 	bg-white
 	border
@@ -52,4 +54,23 @@ input[list]::-webkit-calendar-picker-indicator {
 	text-red-600
 	text-xs
 	italic
+}
+
+.rdp {
+	--rdp-cell-size: 25px !important; /* Size of the day cells. */
+	--rdp-caption-font-size: 16px !important; /* Font size for the caption labels. */
+	--rdp-accent-color: var(--primary-500) !important; /* Accent color for the background of selected days. */
+	--rdp-background-color: #e7edff; /* Background color for the hovered/focused elements. */
+	--rdp-accent-color-dark: var(--primary-500) !important; /* Accent color for the background of selected days (to use in dark-mode). */
+	--rdp-background-color-dark: var(--primary-500) !important; /* Background color for the hovered/focused elements (to use in dark-mode). */
+	--rdp-outline: 2px solid var(--primary-500) !important; /* Outline border for focused elements */
+	--rdp-outline-selected: 3px solid var(--primary-500) !important; /* Outline border for focused _and_ selected elements */
+	--rdp-selected-color: #fff; /* Color of selected day text */
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+	display: none;
 }

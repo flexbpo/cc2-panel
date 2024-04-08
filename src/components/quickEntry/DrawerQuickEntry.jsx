@@ -3,183 +3,498 @@
 import {Drawer} from "@/components/ui/Drawer";
 import {useDrawersStore} from "@/store/drawers.store";
 import {useForm} from "react-hook-form";
-import { useState } from 'react';
-
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datalist-input/dist/styles.css';
+import 'react-day-picker/dist/style.css';
+import {DateTimePicker} from "@/components/forms/DateTimePicker";
+import {SimpleAutoComplete} from "@/components/forms/SimpleAutoComplete";
+import {getCarrier} from "@/services/carrier.api";
+import {getArrivalPort} from "@/services/arrival-port.api";
+import {AutoComplete} from "@/components/forms/AutoComplete";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {z} from "zod";
+import {Input} from "@/components/forms/Input";
+import {generateRandomCodeTripNumber} from "@/hooks/generateRandomCodeTripNumber";
+import {Table} from "@/components/ui/Table";
+import {useEffect, useState} from "react";
+import SimpleBar from "simplebar-react";
+import {Icons} from "@/components/ui";
 
-const generateRandomCode = () => {
-	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-	const codeLength = 15;
-	let code = '';
-	for (let i = 0; i < codeLength; i++) {
-		const randomIndex = Math.floor(Math.random() * characters.length);
-		code += characters[randomIndex];
-	}
-	return code;
-};
+const dynamicSchema = z.object({
+	description: z.string().min(1, { message: 'Description is required' }),
+	quantity: z.string().min(1, { message: 'Quantity is required' }),
+	uom: z.string().min(1, { message: 'UOM is required' }),
+	gross: z.string().min(1, { message: 'Gross Weight is required' }),
+	marks: z.string().min(1, { message: 'Marks And Numbers is required' }),
+});
+
+const schema = z.object({
+		carrier: z.string().min(1, {message: 'Carrier is required'}),
+		"trip-number": z.string().min(1, {message: 'Trip number is required'}),
+		"estimated-arrival": z.string().min(1, {message: 'Estimated arrival is required'}),
+		"arrival-port": z.string().min(1, {message: 'Arrival port is required'}),
+		conveyance: z.string().min(1, {message: 'Conveyance is required'}),
+		equipment: z.string().min(1, {message: 'Equipment is required'}),
+		driver: z.string().min(1, {message: 'Driver is required'}),
+		"carrier-scn": z.string().min(1, {message: 'Carrier SCN is required'}),
+		scn: z.string().min(1, {message: 'SCN is required'}),
+		entry: z.string().min(1, {message: 'Entry is required'}),
+		type: z.string().min(1, {message: 'Type is required'}),
+		shipper: z.string().min(1, {message: 'Shipper is required'}),
+		consignee: z.string().min(1, {message: 'Consignee is required'}),
+		"port-of-landing": z.string().min(1, {message: 'Port of landing is required'}),
+		commodities: z.array(dynamicSchema)
+	})
+
+const defaultValues = {
+	carrier: '',
+	"trip-number": '',
+	"estimated-arrival": '',
+	"arrival-port": '',
+	conveyance: '',
+	equipment: '',
+	driver: '',
+	"carrier-scn": '',
+	scn: '',
+	type: '',
+	entry: '',
+	shipper: '',
+	consignee: '',
+	"port-of-landing": ''
+}
 
 export const DrawerQuickEntry = () => {
-	const {setValue, register, handleSubmit, watch, reset, formState: {errors}} = useForm();
+	const {
+		control,
+		setValue,
+		handleSubmit,
+		reset,
+		clearErrors,
+		trigger,
+		formState: {errors}} = useForm({
+			defaultValues,
+			resolver: async (data, context, options) => {
+				// you can debug your validation schema here
+				//console.log('formData', data)
+				//console.log('validation result', await zodResolver(schema)(data, context, options))
+				return zodResolver(schema)(data, context, options)
+			},
+			mode: "onChange"
+		});
+	const [dynamicRows, setDynamicRows] = useState([{ description: '', quantity: '', uom: '', gross: '', marks: '' }]);
 	const drawerQuickEntry = useDrawersStore(state => state.drawerQuickEntry);
 	const showDrawerQuickEntry = useDrawersStore(store => store.showDrawerQuickEntry)
-	const [startDate, setStartDate] = useState(new Date());
-	const [generatedCode, setGeneratedCode] = useState('');
+	const addDynamicRow = () => {
+		setDynamicRows([...dynamicRows, { description: '', quantity: '', uom: '', gross: '', marks: '' }]);
+	};
+	const [tripNumberRandomCode, setTripNumberRandomCode] = useState('')
 
-	const handleGenerateCode = () => {
-		const code = generateRandomCode();
-		setGeneratedCode(code);
-		setValue('trip-number', code);
+	const updateDynamicRow = (name, value) => {
+		const [field, index, property] = name.match(/^(\w+)\[(\d+)\]\.(\w+)$/).slice(1);
+
+		const updatedRows = [...dynamicRows];
+
+		updatedRows[index][property] = value;
+
+		setDynamicRows(updatedRows);
 	};
 
-	const onSubmit = (values) => {
-		console.log(values)
-	}
+	const deleteDynamicRow = (index) => {
+		const updatedRows = dynamicRows.filter((_, i) => i !== index);
+		setDynamicRows(updatedRows);
+	};
+
+	const columns = [
+		{
+			header: 'Description',
+			accessorKey: 'description'
+		}, {
+			header: 'Quantity',
+			accessorKey: 'quantity'
+		}, {
+			header: 'UOM',
+			accessorKey: 'uom',
+		}, {
+			header: 'Gross Weight',
+			accessorKey: 'gross'
+		}, {
+			header: 'Marks And Numbers',
+			accessorKey: 'marks'
+		}, {
+			header: 'Actions',
+			accessorKey: 'actions'
+		},
+	];
+
+	const onSubmit = (values) => console.log(values)
+
+	useEffect(() => {
+		setValue('commodities', dynamicRows)
+	}, [dynamicRows]);
+
 
 	return (
-		<Drawer title='Quick entry' icon="air" show={drawerQuickEntry} setShow={() => showDrawerQuickEntry()}>
+		<Drawer title='Quick E-Manifest' icon="quick-entry" show={drawerQuickEntry} setShow={() => showDrawerQuickEntry()}>
 			<form onSubmit={handleSubmit(onSubmit)}>
+				<SimpleBar className="h-full max-h-[calc(100svh-80px)] lg:max-h-[calc(100svh-120px)]">
+					<h2 className="mb-2.5">Trip information</h2>
 
-				<h2 className="mb-2.5">Trip information</h2>
+					<ul className="grid grid-cols-2 gap-x-2.5 gap-y-5">
+						<li className="col-start-1 col-end-3 self-start">
+							<div className="flex justify-between">
+								<label>Trip #</label>
 
-				<ul className="grid grid-cols-2 gap-x-2.5 gap-y-5">
-					<li>
-						<div className="flex justify-between">
-							<label>Trip #</label>
+								<button
+									type="button"
+									className="transition-all flex mb-1.5 text-xs text-primary-500 custom-dark:text-primary-500 hover:text-primary-550 hover:-translate-y-1"
+									onClick={async () => {
+										const randomTripNumber = generateRandomCodeTripNumber();
+										setValue('trip-number', randomTripNumber);
+										await trigger('trip-number');
+									}}>
+									Generate
+								</button>
+							</div>
+							<div className="flex relative">
+								<SimpleAutoComplete
+									name="carrier"
+									placeholder="Carrier"
+									getItems={getCarrier}
+									errorsVisible={false}
+									selectedValue={(item) => item.code}
+									control={control}
+									className="!border-r-0 !rounded-tr-none !rounded-br-none max-w-[70px]">
+									{(item) => (
+										<>
+											<span>{item.name}</span> - <span>{item.code}</span>
+										</>
+									)}
+								</SimpleAutoComplete>
 
-							<button
-								type="button"
-								className="flex mb-1.5 text-xs text-primary-500 custom-dark:text-primary-500 hover:text-primary-550 hover:-translate-y-1"
-								onClick={handleGenerateCode}>
-								Generate
-							</button>
-						</div>
-						<div className="flex">
-							{/*<DatalistInput
-								placeholder=""
-								className="!border-r-0 !rounded-tr-none !rounded-br-none max-w-[70px]"
-								onSelect={(item) => console.log(item.value)}
-								items={[
-									{ id: 'NOLL', value: 'NOLL TRUCKING - NOLL' },
-									{ id: 'BEIO', value: 'BLOCKCHAIN EXPEDITE INC - BEIO' },
-									{ id: 'ESVZ', value: 'EZQUIVEZ TRUCKING - ESVZ' }
-								]}
-							 label=""/>*/}
+								<Input
+									className="!rounded-tl-none !rounded-bl-none !flex-1 !w-[calc(100%-100px)] min-w-0"
+									control={control}
+									errorVisible={false}
+									name="trip-number"
+									value={tripNumberRandomCode}
+									placeholder="Trip number"
+									type="text"/>
+							</div>
 
-							<input
-								list="codes"
-								type="text"
-								autoComplete={false}
-								className="appearance-none list-none peer !border-r-0 !rounded-tr-none !rounded-br-none max-w-[70px]"
-								{...register('carrier', {
-									required: true
-								})}/>
+							{errors.carrier || errors["trip-number"]
+								? <span className="o-error">
+									Carrier and Trip number is required
+							</span> : null}
+						</li>
 
-							<input
-								type="text"
-								className="!rounded-tl-none !rounded-bl-none !flex-1 !w-[calc(100%-100px)] min-w-0"
-								placeholder="Trip Number"
-								{...register('trip-number', {
-									required: true
-								})}/>
-						</div>
-						{errors.carrier && errors["trip-number"] ? <span className="o-error">Carrier and trip number is required</span> : null}
+						<li className="relative self-start">
+							<DateTimePicker
+								label="Estimated Arrival"
+								name="estimated-arrival"
+								control={control}/>
+						</li>
 
-						<datalist id="codes">
-							<option value="NOLL">NOLL TRUCKING - NOLL</option>
-							<option value="BEIO">BLOCKCHAIN EXPEDITE INC - BEIO</option>
-							<option value="ESVZ">EZQUIVEZ TRUCKING - ESVZ</option>
-						</datalist>
-					</li>
+						<li className="relative self-start">
+							<SimpleAutoComplete
+								control={control}
+								label="Arrival port"
+								name="arrival-port"
+								getItems={getArrivalPort}
+								selectedValue={(item) => `${item.name} - ${item.code}`}>
+								{(item) => (
+									<>
+										<span>{item.name}</span> - <span>{item.code}</span>
+									</>
+								)}
+							</SimpleAutoComplete>
+						</li>
+					</ul>
 
-					<li>
-						<label>Estimated Arrival</label>
-						<DatePicker
-							selected={startDate}
-							onChange={(date) => setStartDate(date)}
-							showTimeSelect
-							dateFormat="MM/d/yyyy h:mm aa"
-						/>
-						{/*<input
-							type="text"
-							{...register('entry', {
-								required: true
-							})}/>
-						{errors.entry && <span className="o-error">Entry is required</span>}*/}
-					</li>
+					<h2 className="mt-8 mb-2.5">Carrier information</h2>
 
-					<li>
-						<label>Arrival Port</label>
-						<input
-							list="arrival"
-							type="text"
-							{...register('arrival', {
-								required: true
-							})}/>
-						<datalist id="arrival">
-							<option value="PORTLAND - 0101">PORTLAND - 0101</option>
-							<option value="LUBEC - 0103">LUBEC - 0103</option>
-							<option value="JACKMAN - 0104">JACKMAN - 0104</option>
-							<option value="VANCEBORO - 0105">VANCEBORO - 0105</option>
-						</datalist>
-						{errors['arrival'] ? <span className="o-error">Arrival Port is required</span> : null}
-					</li>
-				</ul>
+					<ul className="grid grid-cols-2 gap-x-2.5 gap-y-5">
+						<li className="relative self-start">
+							<AutoComplete
+								control={control}
+								label="Conveyance"
+								name="conveyance"
+								getItems={getArrivalPort}
+								selectedValue={(item) => `${item.name} - ${item.code}`}>
+								{(item, selectedItemIndex, index) => (
+									<>
+										<span
+											className={`${selectedItemIndex === index ? 'text-white' : 'text-zinc-700'} group-hover/item:text-white block`}>
+											{item.name}
+										</span>
+										<span
+											className={`${selectedItemIndex === index ? 'text-white' : 'text-neutral-400'} group-hover/item:text-white text-[10px]`}>
+											{item.code}
+										</span>
+									</>
+								)}
+							</AutoComplete>
+						</li>
 
-				<h2 className="mt-8 mb-2.5">Carrier information</h2>
+						<li className="relative self-start">
+							<AutoComplete
+								control={control}
+								label="Equipment"
+								name="equipment"
+								getItems={getArrivalPort}
+								selectedValue={(item) => `${item.name} - ${item.code}`}>
+								{(item, selectedItemIndex, index) => (
+									<>
+										<span
+											className={`${selectedItemIndex === index ? 'text-white' : 'text-zinc-700'} group-hover/item:text-white block`}>
+											{item.name}
+										</span>
+										<span
+											className={`${selectedItemIndex === index ? 'text-white' : 'text-neutral-400'} group-hover/item:text-white text-[10px]`}>
+											{item.code}
+										</span>
+									</>
+								)}
+							</AutoComplete>
+						</li>
 
-				<ul  className="grid grid-cols-2 gap-x-2.5 gap-y-5">
-					<li>
-						<label>Conveyance</label>
-						<input
-							type="text"
-							{...register('conveyance', {
-								required: true
-							})}/>
+						<li className="relative self-start">
+							<AutoComplete
+								control={control}
+								label="Driver"
+								name="driver"
+								getItems={getArrivalPort}
+								selectedValue={(item) => `${item.name} - ${item.code}`}>
+								{(item, selectedItemIndex, index) => (
+									<>
+										<span
+											className={`${selectedItemIndex === index ? 'text-white' : 'text-zinc-700'} group-hover/item:text-white block`}>
+											{item.name}
+										</span>
+										<span
+											className={`${selectedItemIndex === index ? 'text-white' : 'text-neutral-400'} group-hover/item:text-white text-[10px]`}>
+											{item.code}
+										</span>
+									</>
+								)}
+							</AutoComplete>
+						</li>
+					</ul>
 
-						{errors['conveyance'] ? <span className="o-error">Conveyance is required</span> : null}
-					</li>
+					<h2 className="mt-8 mb-2.5">New Shipment</h2>
 
-					<li>
-						<label>Equipment</label>
-						<input
-							type="text"
-							{...register('equipment', {
-								required: true
-							})}/>
+					<ul className="grid grid-cols-2 gap-x-2.5 gap-y-5">
+						<li className="col-start-1 col-end-3 self-start">
+							<div className="flex justify-between">
+								<label>SCN #</label>
 
-						{errors['equipment'] ? <span className="o-error">Equipment is required</span> : null}
-					</li>
+								<button
+									type="button"
+									className="transition-all flex mb-1.5 text-xs text-primary-500 custom-dark:text-primary-500 hover:text-primary-550 hover:-translate-y-1"
+									onClick={async () => {
+										const randomTripNumber = generateRandomCodeTripNumber();
+										setValue('scn', randomTripNumber);
+										await trigger('scn');
+									}}>
+									Generate
+								</button>
+							</div>
+							<div className="flex relative">
+								<SimpleAutoComplete
+									name="carrier-scn"
+									placeholder="Carrier"
+									getItems={getCarrier}
+									errorsVisible={false}
+									selectedValue={(item) => item.code}
+									control={control}
+									className="!border-r-0 !rounded-tr-none !rounded-br-none max-w-[70px]">
+									{(item) => (
+										<>
+											<span>{item.name}</span> - <span>{item.code}</span>
+										</>
+									)}
+								</SimpleAutoComplete>
 
-					<li>
-						<label>Driver</label>
-						<input
-							type="text"
-							{...register('driver', {
-								required: true
-							})}/>
-						{errors['driver'] ? <span className="o-error">Driver is required</span> : null}
-					</li>
-				</ul>
+								<Input
+									className="!rounded-tl-none !rounded-bl-none !flex-1 !w-[calc(100%-100px)] min-w-0"
+									control={control}
+									errorVisible={false}
+									name="scn"
+									placeholder="Enter SCN"
+									type="text"/>
+							</div>
 
-				<hr className="mt-6 mb-6"/>
+							{errors['carrier-scn'] || errors.scn
+								? <span className="o-error">
+									Carrier SCN and SCN number is required
+							</span> : null}
+						</li>
 
-				<div className="flex items-center gap-6">
-					<button type="submit" className="o-button">
-						<span>Save Trip</span>
-					</button>
+						<li className="relative self-start">
+							<SimpleAutoComplete
+								control={control}
+								label="Type"
+								name="type"
+								getItems={getArrivalPort}
+								selectedValue={(item) => `${item.name} - ${item.code}`}>
+								{(item) => (
+									<>
+										<span>{item.name}</span> - <span>{item.code}</span>
+									</>
+								)}
+							</SimpleAutoComplete>
+						</li>
+
+						<li className="relative self-start">
+							<SimpleAutoComplete
+								control={control}
+								label="Entry #"
+								name="entry"
+								getItems={getArrivalPort}
+								selectedValue={(item) => `${item.name} - ${item.code}`}>
+								{(item) => (
+									<>
+										<span>{item.name}</span> - <span>{item.code}</span>
+									</>
+								)}
+							</SimpleAutoComplete>
+						</li>
+
+						<li className="relative self-start">
+							<AutoComplete
+								control={control}
+								label="Shipper"
+								name="shipper"
+								getItems={getArrivalPort}
+								selectedValue={(item) => `${item.name} - ${item.code}`}>
+								{(item, selectedItemIndex, index) => (
+									<>
+										<span
+											className={`${selectedItemIndex === index ? 'text-white' : 'text-zinc-700'} group-hover/item:text-white block`}>
+											{item.name}
+										</span>
+										<span
+											className={`${selectedItemIndex === index ? 'text-white' : 'text-neutral-400'} group-hover/item:text-white text-[10px]`}>
+											{item.code}
+										</span>
+									</>
+								)}
+							</AutoComplete>
+						</li>
+
+						<li className="relative self-start">
+							<AutoComplete
+								control={control}
+								label="Consignee"
+								name="consignee"
+								getItems={getArrivalPort}
+								selectedValue={(item) => `${item.name} - ${item.code}`}>
+								{(item, selectedItemIndex, index) => (
+									<>
+										<span
+											className={`${selectedItemIndex === index ? 'text-white' : 'text-zinc-700'} group-hover/item:text-white block`}>
+											{item.name}
+										</span>
+										<span
+											className={`${selectedItemIndex === index ? 'text-white' : 'text-neutral-400'} group-hover/item:text-white text-[10px]`}>
+											{item.code}
+										</span>
+									</>
+								)}
+							</AutoComplete>
+						</li>
+
+						<li className="relative self-start">
+							<AutoComplete
+								control={control}
+								label="Port of Landing"
+								name="port-of-landing"
+								getItems={getArrivalPort}
+								selectedValue={(item) => `${item.name} - ${item.code}`}>
+								{(item, selectedItemIndex, index) => (
+									<>
+										<span
+											className={`${selectedItemIndex === index ? 'text-white' : 'text-zinc-700'} group-hover/item:text-white block`}>
+											{item.name}
+										</span>
+										<span
+											className={`${selectedItemIndex === index ? 'text-white' : 'text-neutral-400'} group-hover/item:text-white text-[10px]`}>
+											{item.code}
+										</span>
+									</>
+								)}
+							</AutoComplete>
+						</li>
+					</ul>
+
+					<h3 className="mt-6 mb-2 bg-slate-50 rounded text-zinc-400 text-sm py-1 px-3">
+						Commodities
+					</h3>
+
+					<Table
+						columns={columns}
+						data={dynamicRows}
+						pageSize={10000}
+						renderCell={cell => {
+
+							if (cell.column.columnDef.accessorKey === 'actions') {
+								return <button type="button" onClick={() => deleteDynamicRow(cell.row.index)}>
+									Delete
+								</button>
+							}
+
+							if (cell.column.columnDef.accessorKey !== 'actions') {
+								const row = dynamicRows[cell.row.index];
+								const value = row ? row[cell.column.columnDef.accessorKey] : '';
+
+								return (
+									<>
+										<Input
+											value={value}
+											className="!shadow-none"
+											errorVisible={false}
+											type="text"
+											control={control}
+											name={`commodities[${cell.row.index}].${cell.column.columnDef.accessorKey}`}
+											onUpdate={(name, value) => {
+												updateDynamicRow(name, value, cell.row.index)
+											}}
+										/>
+									</>
+								)
+							}
+
+							return null
+						}}
+					/>
 
 					<button
-						type="button"
-						className="underline text-primary-500 hover:-translate-y-1 hover:text-primary-400 transition-all"
-						onClick={() => {
-							reset()
-							showDrawerQuickEntry()
-						}}>
-						Cancel
+						className="text-primary-500 text-[11px] hover:-translate-y-0.5 transition-all" type="button"
+						onClick={addDynamicRow}>
+						<Icons name="plus"/> Add commodities
 					</button>
-				</div>
+
+					{/*<pre>{JSON.stringify(watch(), null, 4)}</pre>
+					<pre>{watch('commodities') ? watch('commodities').length : null}</pre>*/}
+
+					<hr className="mt-6 mb-6"/>
+
+					<div className="flex items-center gap-6">
+						<button type="submit" className="o-button">
+							<span>Save Trip</span>
+						</button>
+
+						<button
+							type="button"
+							className="underline text-primary-500 hover:-translate-y-1 hover:text-primary-400 transition-all"
+							onClick={() => {
+								setDynamicRows([{description: '', quantity: '', uom: '', gross: '', marks: ''}]);
+								reset(defaultValues)
+								showDrawerQuickEntry()
+							}}>
+							Cancel
+						</button>
+					</div>
+				</SimpleBar>
 			</form>
 		</Drawer>
 	)

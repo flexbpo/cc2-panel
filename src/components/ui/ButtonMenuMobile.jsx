@@ -8,7 +8,7 @@ export const ButtonMenuMobile = () => {
 
 	return (
 		<button className="block" onClick={() => changeMenuMobile()}>
-			<Icons name="air"/>
+			<Icons name="hamburguer" className="text-[20px]"/>
 		</button>
 	)
 }
