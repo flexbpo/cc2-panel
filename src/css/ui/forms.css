@@ -139,6 +139,18 @@ input[type='checkbox']{
 	}
 }
 
+.o-select{
+	select{
+		@apply min-h-[38px]
+	}
+	&__error{
+		@apply
+		!border-opacity-100
+		!border-rose-600
+		animate-shake-horizontal
+	}
+}
+
 .custom-select{
 	&__error{
 		.custom-select{

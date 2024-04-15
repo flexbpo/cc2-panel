@@ -10,6 +10,7 @@ export const Select = ({name, control, errorVisible = false, label, options, onU
 			{label ? <label>{label}</label> : null}
 
 			<select
+				className={`${fieldState.error ? 'o-select__error' : ''}`}
 				value={value ? options.find(value => value.value === value) : value}
 				onChange={option => {
 					console.log(option.target.value);
@@ -17,6 +18,7 @@ export const Select = ({name, control, errorVisible = false, label, options, onU
 					if(onUpdate) onUpdate(name, option.target.value);
 				}}
 				{...restField}>
+				<option value="">Select...</option>
 				{options.map((option, index) => (
 					<option key={index} value={option.value}>{option.label}</option>
 				))}
