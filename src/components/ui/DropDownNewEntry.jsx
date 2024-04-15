@@ -7,7 +7,7 @@ export const DropDownNewEntry = () => {
 	const showDrawerQuickEntry = useDrawersStore(store => store.showDrawerQuickEntry)
 
 	return (
-		<div className="group/DropDownEntry fixed bottom-8 right-8 lg:bottom-auto lg:right-auto lg:relative">
+		<div className="group/DropDownEntry fixed bottom-8 right-8 lg:bottom-auto lg:right-auto lg:relative z-20">
 			<button
 				className="hidden lg:block bg-primary-500 text-white text-[13px] rounded overflow-hidden p-0 lg:relative
 					before:-translate-x-1/2 before:absolute before:bg-primary-400 before:block before:clip-path-circle-0 before:content-[''] before:h-full before:left-1/2 before:top-0 before:transition-all before:w-full before:z-0

@@ -45,7 +45,7 @@ export const AutoComplete = ({
 											? "bg-primary-500 dark:bg-primary-500 !text-white"
 											: "hover:bg-primary-500 dark:hover:bg-primary-500 hover:text-white"
 									}`}>
-									<div className="hover:cursor-pointer" onClick={(event) => {
+									<div className={`${selectedItemIndex === index ? 'text-white' : 'text-zinc-700 dark:text-white custom-dark:text-white'} hover:cursor-pointer`} onClick={(event) => {
 										event.stopPropagation();
 										autocomplete.setQuery(item.query)
 										autocomplete.refresh();

@@ -1,5 +1,6 @@
-table{
+table:not(.rdp-table){
 	@apply
+		w-full
 		max-w-full
 		border-collapse
 		border-spacing-0
@@ -10,6 +11,8 @@ table{
 			@apply
 			text-[13px]
 			text-blue-950
+			dark:text-white
+			custom-dark:text-white
 			truncate
 			p-1
 			text-center
@@ -17,17 +20,26 @@ table{
 	}
 
 	tbody{
-		@apply
-			border
-			!rounded
-			border-stone-300;
+		box-shadow: 0 0 0 1px #BABBBF;
+		border-radius: 5px;
 
 		tr{
+			&:first-child{
+				td{
+					&:first-child{
+						input{
+							@apply !rounded-tl-[5px]
+						}
+					}
+				}
+			}
+
 			&:last-child{
 				td{
-					input{
-						@apply
-						!border-b-transparent
+					&:first-child{
+						input{
+							@apply !rounded-bl-[5px]
+						}
 					}
 				}
 			}
@@ -35,22 +47,28 @@ table{
 
 		td{
 			@apply
-			p-0;
+			p-0
+			border-b
+			border-r
+			border-gray-200;
 
 			&:last-child{
-				input{
-					@apply
-					!border-r-transparent
-				}
+				@apply border-r-0;
+			}
+
+			&:nth-last-child(2){
+				@apply border-r-0;
 			}
 
 			input{
 				@apply
-					!border-b-stone-300
-					!border-r-stone-300
-					!border-t-transparent
-					!border-l-transparent
-					!rounded-none
+				border-transparent
+				!rounded-[0]
+				dark:bg-transparent
+				custom-dark:bg-transparent
+				dark:!text-white
+				custom-dark:!text-white
+				min-w-[60px]
 			}
 		}
 	}
@@ -58,6 +76,80 @@ table{
 
 .o-table{
 	@apply
-	max-w-full
 	overflow-x-auto
+	px-1
+	max-w-full
+	w-full;
+
+	.basic-single{
+		@apply w-[60px];
+	}
+
+	.o-select{
+		position: relative;
+
+		&:before{
+			@apply
+			content-['']
+			block
+			h-[calc(100%-20px)]
+			w-[1px]
+			bg-stone-300
+			absolute
+			top-[10px]
+			left-0
+			z-10
+		}
+	}
+
+	select{
+		@apply
+		border-transparent
+		w-[60px]
+		pl-1
+		pr-6
+		relative;
+	}
+
+	.custom-select{
+		&__error{
+			.custom-select{
+				&__control{
+					@apply !border !border-rose-600 animate-shake-horizontal
+				}
+			}
+		}
+
+		&__single-value{
+			text-overflow: inherit !important;
+		}
+
+		&__value-container{
+			@apply pr-0 pl-[2px];
+		}
+
+		&__control{
+			@apply
+			rounded-none
+			!border-transparent
+			shadow-none;
+
+			&:before{
+				@apply
+				content-['']
+				block
+				h-[calc(100%-20px)]
+				w-[1px]
+				bg-stone-300
+				absolute
+				top-[10px]
+				left-0
+			}
+
+			&--is-focused{
+				@apply
+				!border-primary-500
+			}
+		}
+	}
 }

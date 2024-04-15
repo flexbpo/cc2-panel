@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createAutocomplete } from "@algolia/autocomplete-core";
 import {useController} from "react-hook-form";
+import {InputMaskForAutocomplete} from "@/components/forms/InputMaskForAutocomplete";
 
 export const BaseAutoComplete = ({
 		control,
@@ -13,7 +14,8 @@ export const BaseAutoComplete = ({
 		name,
 		placeholder,
 		selectedValue,
-		errorsVisible = true
+		errorsVisible = true,
+		inputMask = false
 	}) => {
 	const [autocompleteState, setAutocompleteState] = useState({
 		collections: [],
@@ -35,6 +37,10 @@ export const BaseAutoComplete = ({
 		getSources: () => [{
 			sourceId: 'carrier-api',
 			getItems: async ({ query }) => {
+				console.log(query.length)
+				if(inputMask && query.length <= 4){
+					return await getItems(query);
+				}
 				if (!!query) {
 					return await getItems(query);
 				}
@@ -127,34 +133,61 @@ export const BaseAutoComplete = ({
 		};
 	}, []);
 
+	useEffect(() => {
+		inputRef.current = autocomplete.getInputProps({ inputElement: inputRef.current });
+	}, [autocomplete]);
+
 	return (
 		<>
 			{label ? <label>{label}</label> : null}
 
-			<input
-				onChange={(event) => {
-					inputProps.onChange(event);
-					field.onChange(event);
-				}}
-				onBlur={(event) => {
-					inputProps.onBlur(event);
-					field.onBlur(event);
-				}}
-				onFocus={(event) => {
-					inputProps.onFocus(event);
-					field.onBlur(event);
-				}}
-				type="text"
-				value={field.value}
-				ref={inputRef}
-				placeholder={placeholder ? placeholder : ""}
-				onKeyDown={handleKeyPress}
-				className={`${className} ${fieldState.error ? '!border !border-red-600 animate-shake-horizontal' : ''}`}
-			/>
+			{!inputMask
+				? <input
+					onChange={(event) => {
+						inputProps.onChange(event);
+						field.onChange(event);
+					}}
+					onBlur={(event) => {
+						inputProps.onBlur(event);
+						field.onBlur(event);
+					}}
+					onFocus={(event) => {
+						inputProps.onFocus(event);
+						field.onBlur(event);
+					}}
+					type="text"
+					value={field.value}
+					ref={inputRef}
+					placeholder={placeholder ? placeholder : ""}
+					onKeyDown={handleKeyPress}
+					className={`${className} ${fieldState.error ? '!border !border-red-600 animate-shake-horizontal' : ''}`}
+				/>
+				: <InputMaskForAutocomplete
+					control={control}
+					field={field}
+					mask="{aaaa}-aaaaaaaaaaaaaaa"
+					onChange={(event) => {
+						inputProps.onChange(event);
+						field.onChange(event);
+					}}
+					onBlur={(event) => {
+						inputProps.onBlur(event);
+						field.onBlur(event);
+					}}
+					onFocus={(event) => {
+						inputProps.onFocus(event);
+						field.onBlur(event);
+					}}
+					type="text"
+					placeholder={placeholder ? placeholder : ""}
+					handleKeyPress={handleKeyPress}
+					className={`${className} ${fieldState.error ? '!border !border-red-600 animate-shake-horizontal' : ''}`}
+				/>
+			}
 
 			{autocompleteState.isOpen ? <div ref={panelRef} {...autocomplete.getPanelProps()}>
 				{autocompleteState.collections.map((collection, index) => {
-					const { items } = collection;
+					const {items} = collection;
 
 					return (
 						<>{children(index, items, listRef, selectedItemIndex, autocomplete, selectedValue, field)}</>

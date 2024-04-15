@@ -4,7 +4,7 @@ const plugin = require("tailwindcss");
 module.exports = {
 	darkMode: 'class',
 	content: [
-		"./src/**/*.{js,jsx,mdx}"
+		"./src/**/*.{js,jsx,mdx,html}"
 	],
 	theme: {
 		extend: {
@@ -25,7 +25,8 @@ module.exports = {
 				'auto': '1fr',
 			},
 			animation: {
-				"shake-horizontal": "shake-horizontal 0.5s cubic-bezier(0.455, 0.030, 0.515, 0.955)   both"
+				"shake-horizontal": "shake-horizontal 0.5s cubic-bezier(0.455, 0.030, 0.515, 0.955) both",
+				"fadeInUp": "fadeInUp 0.5s cubic-bezier(0.455, 0.030, 0.515, 0.955) both"
 			},
 			keyframes: {
 				"shake-horizontal": {
@@ -34,6 +35,10 @@ module.exports = {
 					"20%,40%,60%": {transform: "translateX(10px)"},
 					"80%": {transform: "translateX(8px)"},
 					"90%": {transform: "translateX(-8px)"}
+				},
+				"fadeInUp": {
+					"0%": {opacity: "0", transform: "translateY(-3px)"},
+					"100%": {opacity: "1", transform: "translateY(0)"},
 				}
 			},
 			colors: {
@@ -68,6 +73,8 @@ module.exports = {
 		})),
 		require('@tailwindcss/forms')(function ({addBase}) {
 			addBase({
+				'[type="number"]::-webkit-outer-spin-button': {'-webkit-appearance': 'none !important'},
+				'[type="number"]::-webkit-inner-spin-button': {'-webkit-appearance': 'none !important'},
 				'[type="search"]::-webkit-search-decoration': {display: 'none !important'},
 				'[type="search"]::-webkit-search-cancel-button': {display: 'none !important'},
 				'[type="search"]::-webkit-search-results-button': {display: 'none !important'},

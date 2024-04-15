@@ -11,6 +11,7 @@ export const IconPropTypes = Icons.propTypes = {
 	 * Nombre del icono
 	 */
 	name: PropTypes.oneOf([
+		'trash',
 		'search',
 		'plus',
 		"quick-entry",

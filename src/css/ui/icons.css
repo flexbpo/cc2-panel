@@ -1,6 +1,9 @@
 .icon{
 	@apply !font-ccIcons font-normal not-italic;
 
+	&-trash:before {
+		content: "\e91b";
+	}
 	&-plus:before {
 		content: "\e91a";
 	}

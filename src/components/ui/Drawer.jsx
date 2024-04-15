@@ -6,7 +6,7 @@ export const Drawer = ({children, title, icon, show, setShow}) => {
 			<div className={`top-0 left-0 z-50 fixed w-svw h-svh bg-black/30 dark:bg-black/70 custom-dark:bg-black/70 transition-all
 				${show ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
 					<div
-						className={`rounded-tr-[34px] rounded-tl-[34px] bg-white h-[calc(100svh-16px)] right-0 fixed w-full shadow pt-9 px-8 lg:px-14 transition-all delay-150
+						className={`rounded-tr-[34px] rounded-tl-[34px] bg-white h-[calc(100svh-16px)] right-0 fixed w-full shadow pt-9 px-8 lg:px-10 transition-all delay-150
 							dark:bg-secondary-800 custom-dark:bg-secondary-800
 							lg:top-0  lg:max-w-[480px] lg:h-svh lg:rounded-none
 							${show ? 'opacity-100 visible lg:right-0 bottom-0' : 'lg:-right-full -bottom-full opacity-0 invisible'}
@@ -15,7 +15,7 @@ export const Drawer = ({children, title, icon, show, setShow}) => {
 							<Icons name="close" className="text-[20px]"/>
 						</button>
 
-						<h2 className="flex gap-4 font-medium text-[22px] lg:text-xl mb-8 capitalize dark:text-white custom-dark:text-white">
+						<h2 className="flex gap-4 font-medium text-[22px] lg:text-xl mb-4 capitalize dark:text-white custom-dark:text-white">
 							<Icons name={icon}/> {title}
 						</h2>
 

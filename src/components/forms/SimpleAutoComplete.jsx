@@ -11,6 +11,7 @@ import {BaseAutoComplete} from "@/components/forms/BaseAutoComplete";
  * @param {String} [name] - name del input
  * @param {String} placeholder - placeholder del input
  * @param {Function} [selectedValue] - al escoger una opción se determina que value tomará el input
+ * @param inputMask
  * */
 export const SimpleAutoComplete = ({
 		children,
@@ -21,7 +22,8 @@ export const SimpleAutoComplete = ({
 		label,
 		name,
 		placeholder,
-		selectedValue
+		selectedValue,
+		inputMask = false
 	}) => {
 
 	return (
@@ -33,7 +35,8 @@ export const SimpleAutoComplete = ({
 			label={label}
 			name={name}
 			placeholder={placeholder}
-			selectedValue={selectedValue}>
+			selectedValue={selectedValue}
+			inputMask={inputMask}>
 			{(index, items, listRef, selectedItemIndex, autocomplete, selectedValue, field) => (
 				<div key={`section-${index}`}>
 					{items.length > 0

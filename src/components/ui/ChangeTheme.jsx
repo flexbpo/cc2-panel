@@ -18,7 +18,8 @@ export const ChangeTheme = () => {
 
 	const {data} = useQuery({
 		queryKey: ["ThemeID"],
-		queryFn: async () => await getThemeByID(themeID)
+		queryFn: async () => await getThemeByID(themeID),
+		enabled: themeID !== null
 	});
 
 	useEffect(() => {
@@ -42,18 +43,6 @@ export const ChangeTheme = () => {
 			}
 		}
 	}, [themeID, data]);
-
-	/*if(themeID !== null && data?.error !== 'Not Found'){
-		addInfoTheme(data);
-		if (theme === 'light' || theme === 'custom') setTheme('custom');
-		if (theme === 'dark' || theme === 'custom-dark') setTheme('custom-dark');
-	}
-
-	if(themeID === null || data?.error === 'Not Found') {
-		addInfoTheme({});
-		if (theme === 'light' || theme === 'custom') setTheme('light');
-		if (theme === 'dark' || theme === 'custom-dark') setTheme('dark');
-	}*/
 
 	useEffect(() => {
 		setMounted(true);

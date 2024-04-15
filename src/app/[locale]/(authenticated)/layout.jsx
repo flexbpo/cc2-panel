@@ -22,7 +22,7 @@ export default async function RootLayout({children}) {
 				<HeaderAuthenticated/>
 
 				<div className="px-4 lg:px-0">
-					<div className="bg-slate-50 dark:bg-secondary-700 custom-dark:bg-secondary-700 rounded px-4 py-5 min-h-[calc(100svh-98px)]">
+					<div className="bg-slate-50 dark:bg-secondary-700 custom-dark:bg-secondary-700 rounded-[15px] px-4 py-5 min-h-[calc(100svh-98px)]">
 						{children}
 					</div>
 				</div>
