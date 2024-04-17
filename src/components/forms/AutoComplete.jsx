@@ -11,6 +11,8 @@ export const AutoComplete = ({
 		name,
 		placeholder,
 		selectedValue,
+		onClickEdit,
+		onClickAddNew
 	}) => {
 
 	return (
@@ -57,7 +59,8 @@ export const AutoComplete = ({
 
 									<button
 										className={`${selectedItemIndex === index ? 'text-white' : ''} text-primary-500 group-hover/item:text-white`}
-										type="button" onClick={() => console.log('aquí va una acción')}>
+										type="button"
+										onClick={() => onClickEdit(item)}>
 										Edit
 									</button>
 								</li>
@@ -65,6 +68,7 @@ export const AutoComplete = ({
 						</ul>
 
 						<button
+							onClick={onClickAddNew}
 							className="flex gap-2 items-center transition-all text-[11px] px-5 mt-2 mb-7 text-primary-500 hover:-translate-y-1"
 							type="button">
 							Add New

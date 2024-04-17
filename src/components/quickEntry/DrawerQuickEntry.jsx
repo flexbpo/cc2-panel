@@ -25,6 +25,7 @@ import {date} from "@/hooks/date";
 import {Select} from "@/components/forms/Select";
 import {toast} from "sonner";
 import {getEquipments} from "@/services/equipment.api";
+import {getConveyance} from "@/services/conveyance.api";
 
 const defaultValues = {
 	"trip-number": '',
@@ -47,6 +48,13 @@ export const DrawerQuickEntry = () => {
 	const [dynamicRows, setDynamicRows] = useState([{ description: '', uom: '', quantityUom: '', gross: '', quantityGross: ''}]);
 	const drawerQuickEntry = useDrawersStore(state => state.drawerQuickEntry);
 	const showDrawerQuickEntry = useDrawersStore(store => store.showDrawerQuickEntry)
+	const showDrawerConveyance = useDrawersStore(store => store.showDrawerConveyance)
+	const showDrawerConveyanceSeals = useDrawersStore(store => store.showDrawerConveyanceSeals)
+	const drawerConveyanceSeals = useDrawersStore(store => store.drawerConveyanceSeals)
+	const conveyanceSeals = useDrawersStore(store => store.conveyanceSeals)
+	const setConveyanceSeals = useDrawersStore(store => store.setConveyanceSeals)
+	const setIdConveyance = useDrawersStore(store => store.setIdConveyance)
+	const [idDrawerConveyance, setIdDrawerConveyance] = useState('')
 	const [newShipment, setNewShipment] = useState(false);
 	const [equipment, setEquipment] = useState([{},{},{},{}]);
 	const [drivers, setDrivers] = useState([{},{}]);
@@ -114,6 +122,7 @@ export const DrawerQuickEntry = () => {
 		setNewShipment(false)
 		reset(defaultValues)
 		showDrawerQuickEntry()
+		setConveyanceSeals([])
 	}
 
 	useEffect(() => {
@@ -139,7 +148,7 @@ export const DrawerQuickEntry = () => {
 	return (
 		<Drawer title='Quick E-Manifest (ACE)' icon="quick-entry" show={drawerQuickEntry} setShow={() => showDrawerQuickEntry()}>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<SimpleBar className="h-[calc(100svh-80px)] lg:h-[calc(100svh-120px)] px-[2px]">
+				<SimpleBar className="h-[calc(100svh-140px)] lg:h-[calc(100svh-120px)] px-[2px]">
 					<ul className="grid grid-cols-2 gap-x-2.5 gap-y-3">
 						<li className="relative col-start-1 col-end-3">
 							<div className="flex gap-x-3">
@@ -213,27 +222,68 @@ export const DrawerQuickEntry = () => {
 
 					<ul className="grid grid-cols-2 gap-x-2.5 gap-y-3 mt-3">
 						<li className="relative self-start">
-							<LabelCustom
-								label="Conveyance"
-								watch={watch('conveyance').length}
-								editFunction={() => console.log('editar')}
-								agreeFunction={() => console.log('agregar')}
-							/>
+							<div className="flex justify-between">
+								<label>Conveyance</label>
+
+								<div className="flex gap-1">
+									{watch('conveyance').length > 0 ? <button
+										title="Edit"
+										type="button"
+										className="animate-fadeInUp transition-all border border-primary-500 rounded-full size-4 flex justify-center items-center mb-1.5 text-xs text-primary-500 custom-dark:text-primary-500 hover:!text-primary-550 hover:!-translate-y-1"
+										onClick={() => {
+											setIdConveyance(idDrawerConveyance)
+											showDrawerConveyance()
+										}}>
+										<Icons name="draft"/>
+									</button> : null}
+
+									<button
+										title="Seals"
+										type="button"
+										className="transition-all border border-primary-500 rounded-full size-4 flex justify-center items-center mb-1.5 text-xs text-primary-500 custom-dark:text-primary-500 hover:text-primary-550 hover:-translate-y-1"
+										onClick={() => {
+											console.log('click');
+											showDrawerConveyanceSeals()
+										}}>
+										{conveyanceSeals.length > 0 ? conveyanceSeals.length : <Icons name="draft"/>}
+									</button>
+
+									<button
+										type="button"
+										className="transition-all border border-primary-500 rounded-full size-4 flex justify-center items-center mb-1.5 text-xs text-primary-500 custom-dark:text-primary-500 hover:text-primary-550 hover:-translate-y-1"
+										onClick={() => {
+											setIdConveyance('')
+											showDrawerConveyance()
+										}}>
+										<Icons name="plus"/>
+									</button>
+								</div>
+							</div>
 
 							<AutoComplete
 								control={control}
 								name="conveyance"
-								getItems={getArrivalPort}
-								selectedValue={(item) => `${item.name} - ${item.code}`}>
+								getItems={getConveyance}
+								onClickEdit={item => {
+									setIdConveyance(item.id);
+									setIdDrawerConveyance(item.id)
+									showDrawerConveyance()
+								}}
+								onClickAddNew={() => {
+									setIdConveyance('')
+									setIdDrawerConveyance('')
+									showDrawerConveyance()
+								}}
+								selectedValue={(item) => {
+									setIdConveyance(item.id)
+									setIdDrawerConveyance(item.id)
+									return `${item.name}`
+								}}>
 								{(item, selectedItemIndex, index) => (
 									<>
 										<span
 											className={`${selectedItemIndex === index ? 'text-white' : 'text-zinc-700 dark:text-white custom-dark:text-white'} group-hover/item:text-white block`}>
 											{item.name}
-										</span>
-										<span
-											className={`${selectedItemIndex === index ? 'text-white' : 'text-neutral-400 dark:text-white custom-dark:text-white'} group-hover/item:text-white text-[10px]`}>
-											{item.code}
 										</span>
 									</>
 								)}
@@ -241,7 +291,8 @@ export const DrawerQuickEntry = () => {
 						</li>
 
 						{drivers.map((item, index) => (
-							<li key={index} className={`${index === 0 || (index === 1 && drivers[0].name !== undefined) || item.name !== undefined ? 'block' : 'hidden'} relative self-start gap-x-2.5 gap-y-3`}>
+							<li key={index}
+							    className={`${index === 0 || (index === 1 && drivers[0].name !== undefined) || item.name !== undefined ? 'block' : 'hidden'} relative self-start gap-x-2.5 gap-y-3`}>
 								{drivers[index].name === undefined
 									? <>
 										<div className="flex justify-between">
@@ -252,7 +303,7 @@ export const DrawerQuickEntry = () => {
 													type="button"
 													className="transition-all border border-primary-500 rounded-full size-4 flex justify-center items-center mb-1.5 text-xs text-primary-500 custom-dark:text-primary-500 hover:text-primary-550 hover:-translate-y-1"
 													onClick={() => console.log('aquí habrá otra acción')}>
-													<Icons name="plus"/>
+												<Icons name="plus"/>
 												</button>
 											</div>
 										</div>
@@ -260,7 +311,7 @@ export const DrawerQuickEntry = () => {
 										<AutoComplete
 											control={control}
 											name={`drivers[${index}].name`}
-											getItems={getDrivers}
+											getItems={(query) => getDrivers(query, watch('fast'))}
 											selectedValue={async (item) => {
 												const nuevosDrivers= [...drivers];
 												nuevosDrivers[index] = item;
@@ -313,7 +364,7 @@ export const DrawerQuickEntry = () => {
 												setValue(`drivers[${index}].name`, '');
 												await trigger(`drivers[${index}].name`);
 
-												setEquipment(nuevosDrivers);
+												setDrivers(nuevosDrivers);
 											}}>
 											<Icons name="close"/>
 										</button>
@@ -321,7 +372,7 @@ export const DrawerQuickEntry = () => {
 										<button
 											type="button"
 											className="font-bold hover:!text-primary-500 transition-all">
-											{drivers[index].name}
+											Driver {index+1}: {drivers[index].name}
 										</button>
 
 										<p>{drivers[index].licence}</p>
@@ -411,7 +462,7 @@ export const DrawerQuickEntry = () => {
 										<button
 											type="button"
 											className="font-bold hover:!text-primary-500 transition-all">
-											{equipment[index].name}
+											Equipment {index+1}: {equipment[index].name}
 										</button>
 
 										<p>{equipment[index].description}</p>
@@ -445,14 +496,36 @@ export const DrawerQuickEntry = () => {
 							</h2>
 
 							<ul className="grid grid-cols-2 gap-x-2.5 gap-y-3">
+								<li className="relative self-start">
+									<CustomSelect
+										name="type"
+										control={control}
+										label="Type"
+										options={[
+											{value: 'Regular', label: 'Regular'},
+											{value: 'QP In-Bond', label: 'QP In-Bond'},
+											{value: 'Section 321', label: 'Section 321'}
+										]}
+									/>
+								</li>
+
+								<li className="relative self-start">
+									<Input
+										type="text"
+										label="Entry #"
+										name="entry"
+										control={control}
+									/>
+								</li>
+
 								<li className="col-start-1 col-end-3 self-start">
-									<li className="relative col-start-1 col-end-3">
+									<div className="relative col-start-1 col-end-3">
 										<div className="flex gap-x-3">
 											<div className="flex-1">
 												<div className="flex justify-between">
 													<label>SCN #</label>
 
-													{watch('scn')?.length >= 4
+													{watch('scn')?.length >= 4 && watch('type') === 'Section 321'
 														? <button
 															type="button"
 															className="transition-all flex mb-1.5 text-xs text-primary-500 custom-dark:text-primary-500 hover:text-primary-550 hover:-translate-y-1"
@@ -483,48 +556,7 @@ export const DrawerQuickEntry = () => {
 												</SimpleAutoComplete>
 											</div>
 										</div>
-									</li>
-								</li>
-
-								<li className="relative self-start">
-									<CustomSelect
-										name="type"
-										control={control}
-										label="Type"
-										options={[
-											{value: 'Regular', label: 'Regular'},
-											{value: 'QP In-Bond', label: 'QP In-Bond'},
-											{value: 'Section 321', label: 'Section 321'}
-										]}
-									/>
-
-									{/*<SimpleAutoComplete
-										control={control}
-										label="Type"
-										name="type"
-										getItems={getArrivalPort}
-										selectedValue={(item) => `${item.name} - ${item.code}`}>
-										{(item) => (
-											<>
-												<span>{item.name}</span> - <span>{item.code}</span>
-											</>
-										)}
-									</SimpleAutoComplete>*/}
-								</li>
-
-								<li className="relative self-start">
-									<SimpleAutoComplete
-										control={control}
-										label="Entry #"
-										name="entry"
-										getItems={getArrivalPort}
-										selectedValue={(item) => `${item.name} - ${item.code}`}>
-										{(item) => (
-											<>
-												<span>{item.name}</span> - <span>{item.code}</span>
-											</>
-										)}
-									</SimpleAutoComplete>
+									</div>
 								</li>
 
 								<li className="relative self-start">
@@ -618,6 +650,7 @@ export const DrawerQuickEntry = () => {
 													ref={register}
 													value={value}
 													className="!shadow-none flex-1"
+													onlyNumbers={cell.column.columnDef.accessorKey !== 'description'}
 													errorVisible={false}
 													type={`${cell.column.columnDef.accessorKey === 'gross' || cell.column.columnDef.accessorKey === 'uom' ? 'number' : 'text'}`}
 													control={control}
@@ -701,14 +734,14 @@ const LabelCustom = ({label, watch, editFunction, agreeFunction}) => {
 				title="Edit"
 				type="button"
 				className="animate-fadeInUp transition-all border border-primary-500 rounded-full size-4 flex justify-center items-center mb-1.5 text-xs text-primary-500 custom-dark:text-primary-500 hover:!text-primary-550 hover:!-translate-y-1"
-				onClick={() => editFunction}>
+				onClick={() => editFunction()}>
 				<Icons name="draft"/>
 			</button> : null}
 
 			<button
 				type="button"
 				className="transition-all border border-primary-500 rounded-full size-4 flex justify-center items-center mb-1.5 text-xs text-primary-500 custom-dark:text-primary-500 hover:text-primary-550 hover:-translate-y-1"
-				onClick={() => agreeFunction}>
+				onClick={() => agreeFunction()}>
 				<Icons name="plus"/>
 			</button>
 		</div>

@@ -1,6 +1,6 @@
 import {ccPanelApi} from "./config";
 
-export const getDrivers = async (search) => {
+export const getDrivers = async (search, fast) => {
 	const searchTerm = search.toLowerCase().trim()
 	const { data } = await ccPanelApi(`/driver`).catch(error => error.response);
 
@@ -9,9 +9,16 @@ export const getDrivers = async (search) => {
 		const itemLicence = item.licence.toLowerCase().trim();
 		const itemFast = item.fast.toLowerCase().trim();
 		const inChange = item.inChange.toLowerCase().trim();
-		return itemName.includes(searchTerm)
+
+		if (fast) {
+			return itemName.includes(searchTerm)
 			|| itemLicence.includes(searchTerm)
 			|| itemFast.includes(searchTerm)
-			|| inChange.includes(searchTerm);
-	})
+			|| inChange.includes(searchTerm)
+		} else {
+			return (itemName.includes(searchTerm)
+				|| itemLicence.includes(searchTerm)
+				|| inChange.includes(searchTerm)) && !itemFast.includes('fast')
+		}
+	});
 }

@@ -31,12 +31,14 @@ export const quickEManifestValidation = (newShipment, equipment, drivers) => {
 
 	const equipmentSchema = Yup.object().shape({
 		name: Yup.string().when(['equipment[0].name', 'equipment[1].name'], ([name, secondDriverName], schema) => {
-			if (equipment[0].name === undefined && equipment[1].name === undefined && equipment[2].name === undefined && equipment[3].name === undefined) {
-				return schema.notRequired();
-				//return schema.required('Equipment is required');
-			} else {
-				return schema.notRequired();
-			}
+			return schema.notRequired();
+
+			// if (equipment[0].name === undefined && equipment[1].name === undefined && equipment[2].name === undefined && equipment[3].name === undefined) {
+			// 	return schema.notRequired();
+			// 	//return schema.required('Equipment is required');
+			// } else {
+			// 	return schema.notRequired();
+			// }
 		})
 	});
 

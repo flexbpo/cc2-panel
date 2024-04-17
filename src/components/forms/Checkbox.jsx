@@ -25,6 +25,7 @@ export const Checkbox = ({label, name, placeholder, className, control, errorVis
 					placeholder={placeholder}
 					{...field}
 					value={value ? value : field.value}
+					checked={value ? value : field.value}
 					onChange={handleChange}/>
 				<span></span>
 			</label>

@@ -3,6 +3,8 @@ import {redirect} from "next/navigation";
 import {AsideMenu} from "@/components/template/AsideMenu";
 import {HeaderAuthenticated} from "@/components/template/HeaderAuthenticated";
 import {DrawerQuickEntry} from "@/components/quickEntry/DrawerQuickEntry";
+import {DrawerConveyance} from "@/components/conveyance/DrawerConveyance";
+import {DrawerSeals} from "@/components/conveyance/DrawerSeals";
 
 export const metadata = {
 	title: "CC Connect",
@@ -29,6 +31,10 @@ export default async function RootLayout({children}) {
 			</div>
 
 			<DrawerQuickEntry/>
+
+			<DrawerConveyance/>
+
+			<DrawerSeals/>
 		</main>
 	);
 }

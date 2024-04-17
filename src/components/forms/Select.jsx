@@ -13,7 +13,6 @@ export const Select = ({name, control, errorVisible = false, label, options, onU
 				className={`${fieldState.error ? 'o-select__error' : ''}`}
 				value={value ? options.find(value => value.value === value) : value}
 				onChange={option => {
-					console.log(option.target.value);
 					onChange(option.target.value);
 					if(onUpdate) onUpdate(name, option.target.value);
 				}}

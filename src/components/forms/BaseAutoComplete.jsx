@@ -37,7 +37,6 @@ export const BaseAutoComplete = ({
 		getSources: () => [{
 			sourceId: 'carrier-api',
 			getItems: async ({ query }) => {
-				console.log(query.length)
 				if(inputMask && query.length <= 4){
 					return await getItems(query);
 				}

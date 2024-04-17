@@ -10,7 +10,7 @@ import {ButtonSearch} from "@/components/ui/ButtonSearch";
 
 export const HeaderAuthenticated = () => {
 	return (
-		<header className="flex gap-4 w-full relative z-10">
+		<header className="flex gap-4 w-full relative z-30">
 			<div className="w-full hidden lg:block">
 				<SearchForm/>
 			</div>
